@@ -11,7 +11,7 @@ class PostgresqlPy < Formula
   depends_on "readline"
 
    conflicts_with "postgres",
-    :because => "postgresql-py and postgres install the same binaries."
+    :because => "postgresql and postgres install the same binaries."
 
   def install
     # avoid adding the SDK library directory to the linker search path
@@ -23,7 +23,7 @@ class PostgresqlPy < Formula
     args = %W[
       --disable-debug
       --prefix=#{prefix}
-      --datadir=#{HOMEBREW_PREFIX}/share/postgresql-py
+      --datadir=#{HOMEBREW_PREFIX}/share/postgresql
       --libdir=#{HOMEBREW_PREFIX}/lib
       --sysconfdir=#{etc}
       --docdir=#{doc}
@@ -36,7 +36,6 @@ class PostgresqlPy < Formula
       --with-libxslt
       --with-openssl
       --with-pam
-      --with-perl
       --with-python
       --with-uuid=e2fs
     ]
@@ -101,7 +100,7 @@ class PostgresqlPy < Formula
 
   test do
     system "#{bin}/initdb", testpath/"test"
-    assert_equal "#{HOMEBREW_PREFIX}/share/postgresql-py", shell_output("#{bin}/pg_config --sharedir").chomp
+    assert_equal "#{HOMEBREW_PREFIX}/share/postgresql", shell_output("#{bin}/pg_config --sharedir").chomp
     assert_equal "#{HOMEBREW_PREFIX}/lib", shell_output("#{bin}/pg_config --libdir").chomp
     assert_equal "#{HOMEBREW_PREFIX}/lib/postgresql", shell_output("#{bin}/pg_config --pkglibdir").chomp
   end
